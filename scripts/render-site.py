@@ -236,9 +236,8 @@ def sentences(h, limit=380):
 
 
 # ---------------------------------------------------------------- page frame
-LOCKUP = ('<a class="lockup" href="index.html" aria-label="Proceedings of the Institute for a Christian Machine Intelligence, home">'
-          '<span class="mark"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M4 0h2v37h-2zM0 34h3v2h-3zM7 34h33v2h-33zM23 6h2v20h-2zM14 15h20v2h-20z" fill="#2E3236"/><path d="M0 0h2v33h-2zM0 37h2v3h-2zM3 38h37v2h-37z" fill="#B0222D"/></svg></span>'
-          '<span class="name"><b>Proceedings</b><i>of the Institute for a Christian Machine Intelligence</i></span></a>')
+LOCKUP = ('<a class="lockup" href="index.html">'
+          '<img src="logos/icmi-proceedings-light.svg" width="312" height="71" alt="Proceedings of the Institute for a Christian Machine Intelligence, home"></a>')
 NAV = [("about.html", "About"), ("papers.html", "Papers"), ("primer.html", "Primer"), ("fundraising.html", "Fundraising")]
 SUPPORT = ('<section class="support-band" aria-label="Support the Institute">\n'
            '    <p>The Institute is actively fundraising to grow this research program into a durable, independent&nbsp;lab.</p>\n'
@@ -248,7 +247,7 @@ FOOTER = '''<!-- the footer: one engraved scene over the waters, picked at rando
     <canvas id="word" role="img"></canvas>
     <div class="top">
       <div class="close">
-        <div class="lock"><svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true" focusable="false"><path d="M6 0h3v52h-3zM0 47h5v3h-5zM10 47h46v3h-46zM32 8h3v29h-3zM19 21h29v3h-29z" fill="#E8E8E2"/><path d="M0 0h3v46h-3zM0 51h3v5h-3zM4 53h52v3h-52z" fill="#E8524C"/></svg><span>Institute <i>for a</i> Christian<br>Machine Intelligence</span></div>
+        <div class="lock"><img src="logos/icmi-lockup-two-dark.svg" width="297" height="85" alt="Institute for a Christian Machine Intelligence"></div>
         <nav aria-label="Footer">
           <a href="about.html">About</a>
           <a href="papers.html">Papers</a>

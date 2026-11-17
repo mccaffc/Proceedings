@@ -3,7 +3,7 @@
    Tokens     --linen --thread --unbleached --rule --muted --scarlet --scarlet-stroke-dark --scarlet-text-dark
               --gut (side gutter) --pad (page inline padding, content max 1136px) --f-head --f-text
    Page       body, .wrap (padded column), .sec (padded section), .sec.tint (unbleached ground), .sec.ruled (top rule)
-   Header     header.site > a.lockup (svg.mark + .name b + i) + nav.main a[aria-current="page"]
+   Header     header.site > a.lockup (img: the outlined series logo) + nav.main a[aria-current="page"]
    Type       .sc small caps | .h1 scarlet 60px opening statement | .h-side right-aligned scarlet side heading (36px caps)
               .h-sec scarlet 36px caps section heading | .lede 21/32 | .big 26/36 | .body 21/32 | .meta muted 16/24
               .kicker small-caps muted label | .pil (scarlet pilcrow) | .run-in (caps run-in head after a pilcrow)
@@ -48,17 +48,13 @@ h1, h2, h3 { margin: 0; font-weight: normal; }
 
 /* header */
 header.site { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px var(--pad); border-bottom: 1px solid var(--rule); }
-header.site .lockup { display: flex; align-items: flex-start; gap: 14px; text-decoration: none; }
-header.site .mark { padding-top: 4px; flex: none; }
-header.site .mark svg { display: block; width: 40px; height: 40px; }
-header.site .name b { display: block; font-weight: normal; font-size: 24px; line-height: 28px; }
-header.site .name i { display: block; font-size: 16px; line-height: 20px; }
+header.site .lockup { display: block; text-decoration: none; }
+header.site .lockup img { display: block; width: 312px; height: auto; margin: -10px 0 -10px -10px; }   /* logos/icmi-proceedings-light.svg (outlined; the file holds the clear space) */
 nav.main { display: flex; align-items: baseline; gap: 28px; }
 nav.main a { font-size: 16px; line-height: 20px; }
 nav.main a[aria-current] { text-decoration: underline 2px var(--scarlet); text-underline-offset: 6px; }
 @media (max-width: 760px) {
   header.site { flex-direction: column; align-items: flex-start; gap: 14px; padding-block: 16px; }
-  header.site .name i { font-size: 14px; line-height: 18px; }
   nav.main { gap: 22px; flex-wrap: wrap; }
 }
 
