@@ -89,11 +89,16 @@ def rows_of_text(html, fn):
     return "".join(out)
 
 
+def mono_addr(html):
+    """A link whose visible text is a URL or an email address is set in Paper Mono (class addr)."""
+    return re.sub(r'<a href="([^"]+)">((?:https?://|www\.)[^<\s]+|[^<@\s]+@[^<@\s]+\.[^<@\s]+)</a>', r'<a class="addr" href="\1">\2</a>', html)
+
+
 def tie_dashes(html):
     """A spaced em dash becomes a closed one, held to its neighbours: 'interior — and' -> 'interior—and' (no break before)."""
     def fn(t):
         return re.sub(r"(\S+) — (\S+)", r'<span class="nw">\1&mdash;\2</span>', t)
-    return rows_of_text(html, fn)
+    return mono_addr(rows_of_text(html, fn))
 
 
 def image_size(path):

@@ -13,7 +13,7 @@
    Lists      .rows > .row (rule-separated: .no small-caps number, .t title + .meta, .pdf)
    Art        .band (full-bleed engraved image, 1440:520) | img inside uses object-fit cover
    Footer     footer.word is styled by footer/word.css; link both footer/word.css and footer/word.js
-   Fonts: 'Doves Headline' (>=36px), 'Doves Text' (below), italics via font-style: italic; 'Ysabeau Office' (500) for tables, 'Paper Mono' for code. */
+   Fonts: 'Doves Headline' (>=36px), 'Doves Text' (below), italics via font-style: italic; 'Ysabeau Office' (500) for tables, 'Paper Mono' for code, emails and URLs. */
 
 @font-face { font-family: 'Doves Headline'; src: url(fonts/DovesType-Headline.woff2) format('woff2'); font-display: swap; }
 @font-face { font-family: 'Doves Headline'; src: url(fonts/DovesItalic-Headline.woff2) format('woff2'); font-style: italic; font-display: swap; }
@@ -25,7 +25,7 @@
 :root {
   --linen: #E8E8E2; --thread: #2E3236; --unbleached: #D3D0C6; --rule: #C9C8C0; --muted: #5E6266; --scarlet: #B0222D;
   --scarlet-stroke-dark: #E8524C; --scarlet-text-dark: #EE7B70;
-  --f-head: 'Doves Headline', 'Doves Text', Georgia, serif; --f-text: 'Doves Text', Georgia, serif;
+  --f-head: 'Doves Headline', 'Doves Text', Georgia, serif; --f-text: 'Doves Text', Georgia, serif; --f-code: 'Paper Mono', ui-monospace, monospace;
   --gut: 152px; --pad: max(var(--gut), calc((100vw - 1136px) / 2));
 }
 @media (max-width: 1200px) { :root { --gut: clamp(24px, 6vw, 72px); } }
@@ -86,6 +86,13 @@ nav.main a[aria-current] { text-decoration: underline 2px var(--scarlet); text-u
   .lede, .body { font-size: 19px; line-height: 30px; }
   .big { font-size: 22px; line-height: 32px; --lh: 32px; }
 }
+
+/* ragged lines: balance display lines; no paragraph ends on one lone word */
+.h1, .h-sec, .h-side, .big, .lede, .say, .title, .more, h1, h2, h3 { text-wrap: balance; }
+.body, .meta, p, li, dd { text-wrap: pretty; }
+.dropcap { text-wrap: pretty; }
+/* emails and URLs: Paper Mono, a size down so its x-height meets the Doves around it; links keep their behaviour */
+.addr, a.mail { font-family: var(--f-code); font-size: .86em; letter-spacing: 0; overflow-wrap: anywhere; }
 
 /* links and buttons */
 .more { font-size: 18px; line-height: 24px; white-space: nowrap; }

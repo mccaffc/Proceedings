@@ -6,6 +6,7 @@ footer.word canvas { position: absolute; left: 0; top: calc(-1 * var(--leak)); w
 footer.word > :not(canvas) { position: relative; }
 footer.word .top { padding: 88px var(--gut) 0; display: flex; flex-direction: column; gap: 64px; width: fit-content; }
 footer.word .lock { display: flex; gap: 16px; align-items: center; font-size: 24px; line-height: 28px; }
+footer.word .lock i { font-size: .8em; position: relative; top: -.052em; }   /* for a: 80% of the name, its x-height centred on the roman's */
 footer.word nav { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 16px; letter-spacing: .08em; font-feature-settings: "c2sc", "smcp"; }
 footer.word nav a, footer.word .btn { color: var(--w-linen); text-decoration: none; }
 footer.word .support p { font-size: 21px; line-height: 32px; max-width: 460px; }
