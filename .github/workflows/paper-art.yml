@@ -1,0 +1,82 @@
+name: Paper art
+
+# Makes the engraved artwork for papers that lack it and opens a pull request with the proposed art.
+# A person approves the art by merging that PR, which then deploys with the next site build.
+
+on:
+  push:
+    branches: [main]
+    paths: ['ICMI-*.md']
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Paper keys to redo, separated by spaces (for example "29 B"); leave empty to make only missing art'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: paper-art
+  cancel-in-progress: false
+
+jobs:
+  art:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python packages
+        run: pip install numpy scipy pillow
+
+      - name: Make the art
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FORCE_KEYS: ${{ inputs.force }}
+        run: |
+          if [ -n "${FORCE_KEYS:-}" ]; then
+            # shellcheck disable=SC2086
+            python3 scripts/art/make-art.py --force $FORCE_KEYS
+          else
+            python3 scripts/art/make-art.py
+          fi
+
+      - name: Describe the changes
+        id: describe
+        run: |
+          python3 - <<'PY' > pr-body.md
+          import json, os, re, subprocess
+          status = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all", "assets/art/band"],
+                                  capture_output=True, text=True).stdout
+          keys = sorted({re.search(r"band/([^/]+)\.jpg", l).group(1) for l in status.splitlines() if ".jpg" in l})
+          subjects = json.load(open("assets/art/subjects.json"))
+          repo = os.environ["GITHUB_REPOSITORY"]
+          print("Proposed engraved art for new or redone papers. Approve it by merging this pull request; it goes live with the next site build.\n")
+          for k in keys:
+              print("### %s\n\n**Subject:** %s\n" % (k, subjects.get(k, "(not recorded)")))
+              print("![Band for %s](https://raw.githubusercontent.com/%s/paper-art/assets/art/band/%s.jpg)\n" % (k, repo, k))
+          print("## To change a subject\n")
+          print("1. Edit that paper's line in `assets/art/subjects.json` on the `paper-art` branch (or on `main` after merging).")
+          print("2. Open Actions, choose **Paper art**, click **Run workflow**, and enter the paper key (for example `%s`) in **force**." % (keys[0] if keys else "29"))
+          print("3. The workflow generates a new study and updates this pull request.\n")
+          print("The studies are in `assets/art/src/`, so art can also be re-engraved without a new image.")
+          PY
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Open or update the pull request
+        uses: peter-evans/create-pull-request@v7.0.8
+        with:
+          branch: paper-art
+          add-paths: assets/art
+          commit-message: Add proposed engraved art for new papers
+          title: Proposed paper art
+          body-path: pr-body.md
+          delete-branch: true

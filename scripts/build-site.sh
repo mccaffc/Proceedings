@@ -14,6 +14,7 @@ mkdir -p "$OUT_DIR"
 # committed: CI checks it out of the private brand repo into .brand/ (see the workflow), and a local build
 # takes it from $DOVES_FONTS_DIR. Without it the site still builds and falls back to Georgia.
 cp -R "$REPO_DIR/assets/." "$OUT_DIR/"
+rm -rf "$OUT_DIR/art/src"   # the tonal studies are sources for re-engraving, not site files
 mkdir -p "$OUT_DIR/fonts"
 doves_found=0
 for dir in "${DOVES_FONTS_DIR:-}" "$REPO_DIR/.brand/fonts/web"; do

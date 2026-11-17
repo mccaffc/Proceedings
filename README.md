@@ -195,6 +195,27 @@ GitHub Actions (`.github/workflows/build-site.yml`) triggers on push to `main`:
 > No `ANTHROPIC_API_KEY` secret is needed for deploys — the key is only used locally
 > when you run `generate-review.py` to refresh the review.
 
+### Paper art
+
+Each paper has an engraved illustration: a wide band on the paper's page and the homepage, and a tile on the papers
+index (`assets/art/band/`, `tile/` and `field/`). Papers without art show the plain field.
+
+New art is made by CI. When a push to `main` touches an `ICMI-*.md`, the **Paper art** workflow
+(`.github/workflows/paper-art.yml`) runs `scripts/art/make-art.py` for every paper that lacks art and opens a pull
+request on the `paper-art` branch. The PR shows each band and its subject; merging it approves the art.
+
+For each paper the script picks a subject (a line in `assets/art/subjects.json`, else Claude proposes one object
+from the title and abstract and the script records it there), generates a grey tonal study into `assets/art/src/`
+(OpenRouter, Nano Banana), and engraves it with `scripts/art/engrave.py` into the band and tile.
+
+To change a subject, edit `assets/art/subjects.json`, then run the workflow from the Actions tab with the paper key in
+**force** (for example `29`). Locally: `python3 scripts/art/make-art.py --force 29` (add `--dry-run` to preview or
+`--out DIR` to write elsewhere). It needs `numpy`, `scipy` and `pillow`, and the keys `OPENROUTER_API_KEY` and
+`ANTHROPIC_API_KEY`; without them it prints a notice and exits.
+
+Repository setup: add the secrets `OPENROUTER_API_KEY` and `ANTHROPIC_API_KEY`, and turn on Settings > Actions >
+General > "Allow GitHub Actions to create and approve pull requests".
+
 ### Adding New Pages
 
 To add a non-paper page (e.g., a VirtueBench visualizer):
